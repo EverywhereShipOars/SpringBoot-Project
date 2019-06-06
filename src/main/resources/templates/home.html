@@ -3,19 +3,102 @@
 <title>首页</title>
 <body class="welcome_index">
 <header th:replace="header :: header"></header>
+
 <div id="main">
     <div class="container" id="daily">
         <div class="jscroll-inner">
             <div class="daily">
             </div>
-            <h3 class="date">
-                <i class="fa icon-calendar"></i>
-                <span>头条资讯 &nbsp;</span>
-            </h3>
-            <div th:each=" vo,vostart: ${vos}">
+
+            <!-- 一条资讯的展示的数据部分 -->
+                    <div class="daily" th:each="vo :${vos}">
+                        <h3 class="date">
+                            <i class="fa icon-calendar"></i>
+                            头条资讯&nbsp;
+                            <span th:text="${#calendars.format(vo.news.createdDate,'yyyy/MM/dd HH:mm:ss')}">头条资讯&nbsp;
+                            </span>
+                        </h3>
+                        <div class="posts">
+
+                            <div class="post">
+
+                                <div class="votebar" th:if="${vo.like ge 0 }">
+                                    <a href="#" th:href="@{'/like?newsId=' + ${vo.news.id}}" class="btn btn-primary btn-lg" role="button">赞同</a>
+                                    <a href="#" th:href="@{'/dislike?newsId=' + ${vo.news.id}}"
+                                       class="btn btn-primary btn-lg" role="button">反对</a>
+                                    <button class="click-like up pressed"  title="赞同" th:id ="${vo.news.id}" data-th-id="${vo.news.id}"
+                                            th:href="@{'/like?newsId=' + ${vo.news.id}}" >
+                                        <i class="vote-arrow"></i>
+                                        <span class="count" th:text="${vo.news.likeCount}">${vo.news.likeCount}</span>
+                                    </button>
+                                    <button class="click-like down "  title="反对" th:id ="${vo.news.id}" data-th-id="${vo.news.id}"
+                                            th:href="@{'/dislike?newsId=' + ${vo.news.id}}"><i
+                                            class="vote-arrow"></i></button>
+                                </div>
+
+                                <div class="votebar" th:unless="${vo.like ge 0}">
+                                    <a href="#" th:href="@{'/like?newsId=' + ${vo.news.id}}" class="btn btn-primary btn-lg" role="button">赞同</a>
+                                    <a href="#" th:href="@{'/dislike?newsId=' + ${vo.news.id}}"
+                                       class="btn btn-primary btn-lg" role="button">反对</a>
+
+                                    <button class="click-like up"  title="赞同" th:id ="${vo.news.id}" data-th-id="${vo.news.id}"
+                                            th:href="@{'/like?newsId=' + ${vo.news.id}}"><i
+                                            class="vote-arrow"></i><span class="count" th:text="${vo.news.likeCount}">${vo.news.likeCount}</span>
+                                    </button>
+                                    <button class="click-like down pressed"  title="反对" th:id ="${vo.news.id}" data-th-id="${vo.news.id}"
+                                            th:href="@{'/dislike?newsId=' + ${vo.news.id}}">
+                                        <i class="vote-arrow"></i>
+                                    </button>
+                                </div>
+
+                                <div class="content">
+                                    <div >
+                                        <img class="content-img"
+                                             src="${vo.news.image}?x-oss-process=image/resize,m_mfit,h_100,w_100"
+                                             th:src="${vo.news.image }+ '?x-oss-process=image/resize,m_mfit,h_100,w_100'"
+                                             alt=""/>
+                                    </div>
+                                    <div class="content-main">
+                                        <h3 class="title">
+                                            <a target="_blank" rel="external nofollow" href="/news/$!{vo.news.id}"
+                                               th:href="@{'/news/'+${vo.news.id}}" th:text="${vo.news.title}">$!{vo
+                                                .news.title}</a>
+                                        </h3>
+                                        <div class="meta">
+                                            <span th:text="${vo.news.link}"> $!{vo.news.link}</span>
+                                            <span>
+                                                <i class="fa icon-comment"></i>
+                                                <span th:text="${vo.news.commentCount}"/>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="user-info">
+                                    <div class="user-avatar">
+                                        <a href="/user/$!{vo.user.id}/" th:href="@{'/user/' + ${vo.user.id}}">
+                                            <img width="32" class="img-circle" src="$!{vo.user.headUrl}" th:src="${vo.user.headUrl}"/>
+                                        </a>
+                                    </div>
+                                    <div class="subject-name">来自
+                                        <a href="/user/$!{vo.user.id}/" th:href="@{'/user/'+${vo.user.id}}"
+                                           th:text="${vo.user.name}">
+                                            $!{vo.user.name}
+                                        </a>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+           <!-- <div th:each=" vo,vostart: ${vos}">
                 <div class="posts">
                     <div class="post"  th:with="news=${vo.get('news')}">
-                        <!-- <div class="votebar">
+                        <div class="votebar">
                             <div th:if="${vo.get('like')}>0">
                                 <button class="click-like up pressed" th:attr="data-id=${news.getId()}" title="赞同"><i class="vote-arrow"></i><span class="count" th:text="${news.getId()}">100</span></button>
                             </div>
@@ -28,7 +111,7 @@
                             <div th:unless="${vo.get('like')}<0">
                                 <button class="click-dislike down" th:attr="data-id=${news.getId()}" title="反对"><i class="vote-arrow"></i></button>
                             </div>
-                        </div> -->
+                        </div>
                         <div class="content">
                             <div >
                                 <img class="content-img" th:src="${vo.get('news').getImage()}" alt="">
@@ -55,16 +138,18 @@
                     </div>
                 </div>
             </div>
+
+            -->
         </div>
     </div>
 </div>
-</div>
+
 </body>
 
-<!-- <footer th:replace="footer :: footer"></footer> -->
+ <footer th:replace="footer :: footer"></footer>
 
 <script>
-    window.loginpop =[[${pop}]]
+    // window.loginpop =[[${pop}]]
 </script>
 <script type="text/javascript" src="/scripts/main/site/home.js"></script>
 </html>

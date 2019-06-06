@@ -71,8 +71,6 @@ public class NewsController {
 
     //添加新闻资讯
     @RequestMapping(value = "/user/addNews/", method = RequestMethod.POST)
-    //为什么用ResponseBody？因为执行这样一个操作, 返回的是一个用于表示状态的json
-    @ResponseBody
     public String addNews(@RequestParam("image") String image,
                           @RequestParam("title") String title,
                           @RequestParam("link") String link) {
@@ -89,7 +87,8 @@ public class NewsController {
                 news.setUserId(hostHolder.getUser().getId());
             }
             newsDAO.addNews(news);
-            return NewsUtil.getJSONString(0, "发布成功");
+            //添加成功后返回主页
+            return "redirect:/";
         }catch (Exception e){
             System.out.println(e.getMessage());
             return NewsUtil.getJSONString(1, "发布失败");
@@ -106,7 +105,6 @@ public class NewsController {
                 //获取新闻详情页对应的所有评论
                 List<Comment> comments = commentService.getCommentsByEntity(newsId, EntityType.ENTITY_NEWS);
                 //将评论的信息注入模版
-                //注意理解这个ViewObject类型，它本身就是一个HashMap, 其实有点像这样: List<HashMap<String, Object>>
                 List<ViewObject> commentVOs = new ArrayList<>();
                 for (Comment comment : comments) {
                     ViewObject commentVO = new ViewObject();
@@ -138,7 +136,6 @@ public class NewsController {
             comment.setEntityId(newsId);
             comment.setCreatedDate(new Date());
             comment.setContent(content);
-            //user通过hostHolder来获取，但是按理说前端传也ok？等测试的时候试一试
             comment.setUserId(hostHolder.getUser().getId());
             commentService.addComment(comment);
             //更新评论数量

@@ -2,6 +2,7 @@ package com.lyl.news;
 
 import com.lyl.news.dao.*;
 import com.lyl.news.models.*;
+import com.lyl.news.util.JedisAdapter;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,17 +34,13 @@ public class NewsApplicationTests {
     @Autowired
     private MessageDAO messageDAO;
 
+    @Autowired
+    private JedisAdapter jedisAdapter;
+
     @Test
     public void contextLoads() {
-        Message message = new Message();
-
-        message.setToId(2);
-        message.setFromId(5);
-        message.setConversationId("2_5");
-        message.setCreatedDate(new Date());
-        message.setContent("hello, lyl");
-
-        System.out.println(messageDAO.addMessage(message));
+        User user = jedisAdapter.getObject("lyl", User.class);
+        System.out.println(user);
     }
 
 }

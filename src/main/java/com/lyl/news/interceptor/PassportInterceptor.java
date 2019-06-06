@@ -42,7 +42,6 @@ public class PassportInterceptor implements HandlerInterceptor {
                 }
             }
         }
-
         //查ticket是否有效
         if(ticket != null){
             LoginTicket loginTicket = loginTicketDAO.selectByTicket(ticket);
@@ -52,9 +51,7 @@ public class PassportInterceptor implements HandlerInterceptor {
             //ticket有效，则将它保存到hostHolder中，之后后台如果用得到这个信息，则可以使用hostHolder来获取user
             User user = userDAO.selectById(loginTicket.getUserId());
             hostHolder.setUser(user);
-
         }
-
         return true;
     }
 

@@ -13,8 +13,8 @@ public class NewsService {
     @Autowired
     private NewsDAO newsDAO;
 
-    public List<News> getLatestNews(int userId, int offset, int limit){
-        return newsDAO.selectByUserIdAndOffset(userId, offset, limit);
+    public List<News> getLatestNews(int offset, int limit){
+        return newsDAO.selectByUserIdAndOffset(offset, limit);
     }
 
     public News getById(int newsId){
@@ -23,6 +23,10 @@ public class NewsService {
 
     public void updateCommentCount(int newsId, int count){
         newsDAO.updateCommentCount(newsId, count);
+    }
+
+    public void updateLikeCount(int newsId, int count){
+        newsDAO.updateLikeCount(newsId, count);
     }
 
 }

@@ -57,4 +57,15 @@ public class User {
     public void setHeadUrl(String headUrl) {
         this.headUrl = headUrl;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                ", salt='" + salt + '\'' +
+                ", headUrl='" + headUrl + '\'' +
+                '}';
+    }
 }

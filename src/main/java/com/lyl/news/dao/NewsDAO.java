@@ -25,7 +25,8 @@ public interface NewsDAO {
     @Update({"update ", TABLE_NAME, " set like_count = #{likeCount} where id = #{id}"})
     int updateLikeCount(@Param("id") int id, @Param("likeCount") int likeCount);
 
-
-    List<News> selectByUserIdAndOffset(@Param("userId") int userId, @Param("offset") int offset,
+    //找出最新的一些新闻
+    @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME, "  order by created_date desc limit #{offset}, #{limit}"})
+    List<News> selectByUserIdAndOffset(@Param("offset") int offset,
                                      @Param("limit") int limit);
 }

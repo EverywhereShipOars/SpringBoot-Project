@@ -9,10 +9,13 @@
 
 <div id="main">
     <div class="container">
+        <!-- 消息列表的显示部分, -->
         <ul class="letter-list" th:each="conversation : ${conversations}">
             <li id="conversation-item-10005_622873">
+                <!-- 点击可以跳转到具体的会话详情页去 -->
                 <a class="letter-link" th:href="'/msg/detail?conversationId='+${conversation.get('conversation').getConversationId()}"></a>
                 <div class="letter-info">
+                    <!-- 显示会话的时间, 按SQL取的结果来看, 取出的是最新的一条 -->
                     <span class="l-time" th:text="${#dates.format(conversation.get('conversation').getCreatedDate(),'yyyy-MM-dd HH:mm:ss')}"></span>
                     <div class="l-operate-bar">
                         <a href="javascript:void(0);" class="sns-action-del" data-id="10005_622873">
@@ -43,6 +46,7 @@
         </ul>
 
     </div>
+
     <script type="text/javascript">
         $(function(){
 
