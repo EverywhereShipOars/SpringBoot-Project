@@ -39,8 +39,7 @@ public class NewsApplicationTests {
 
     @Test
     public void contextLoads() {
-        User user = jedisAdapter.getObject("lyl", User.class);
-        System.out.println(user);
+        
     }
 
 }
